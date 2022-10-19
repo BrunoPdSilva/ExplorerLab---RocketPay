@@ -1,10 +1,11 @@
 import IMask from "imask";
 import "./css/index.css";
 
+// Cards Background & Logo
 const creditCard = document.querySelector(".cc");
 const ccLogo = document.querySelector(".cc-logo span:nth-child(2) img");
 
-//Form Fields
+// Form Fields
 const cardNumber = document.querySelector("#card-number");
 const cvcInput = document.querySelector("#security-code");
 const expirationDate = document.querySelector("#expiration-date");
@@ -14,7 +15,7 @@ function setCardType(cardType) {
   ccLogo.setAttribute("src", `logo-${cardType}.svg`);
 }
 
-setCardType("cielo");
+setCardType("visa");
 
 globalThis.setCardType = setCardType;
 
@@ -51,6 +52,31 @@ const cardNumberPattern = {
       cardType: "mastercard",
     },
     {
+      mask: "0000 000000 0000",
+      regex: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+      cardtype: "diners",
+    },
+    {
+      mask: "0000 000000 00000",
+      regex: /^3[47]\d{0,13}/,
+      cardtype: "american express",
+    },
+    {
+      mask: "0000 0000 0000 0000",
+      regex: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+      cardtype: "discover",
+    },
+    {
+      mask: "0000 0000 0000 0000",
+      regex: /^(?:35\d{0,2})\d{0,12}/,
+      cardtype: "jcb",
+    },
+    {
+      mask: "0000 0000 0000 0000",
+      regex: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+      cardtype: "maestro",
+    },
+    {
       mask: "0000 0000 0000 0000",
       cardType: "default",
     },
@@ -60,8 +86,6 @@ const cardNumberPattern = {
     const foundMask = dynamicMask.compiledMasks.find(item => {
       return number.match(item.regex);
     });
-
-    console.log(foundMask);
 
     return foundMask;
   },
