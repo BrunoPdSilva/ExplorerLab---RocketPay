@@ -15,8 +15,6 @@ function setCardType(cardType) {
   ccLogo.setAttribute("src", `logo-${cardType}.svg`);
 }
 
-setCardType("visa");
-
 globalThis.setCardType = setCardType;
 
 const cvcInputPattern = { mask: "0000" };
@@ -92,3 +90,30 @@ const cardNumberPattern = {
 };
 
 const cardNumberMasked = IMask(cardNumber, cardNumberPattern);
+
+const cardHolderInput = document.querySelector("#card-holder");
+cardHolderInput.addEventListener("input", () => {
+  const cardHolder = document.querySelector(".cc-holder .value");
+
+  cardHolder.innerText = cardHolderInput.value.length > 0 ? cardHolderInput.value : "FULANO DA SILVA";
+})
+
+cvcInputMasked.on("accept", () => {
+  const cvc = document.querySelector(".cc-security .value");
+
+  cvc.innerText = cvcInputMasked.value.length > 0 ? cvcInputMasked.value : "123"
+})
+
+expirationDateMasked.on("accept", () => {
+  const expiration = document.querySelector(".cc-expiration .value");
+
+  expiration.innerText = expirationDateMasked.value.length > 0 ? expirationDateMasked.value : "02/32"
+})
+
+cardNumberMasked.on("accept", () => {
+  const ccNumber = document.querySelector(".cc-number");
+
+  ccNumber.innerText = cardNumberMasked.value.length > 0 ? cardNumberMasked.value : "1234 5678 9012 3456"
+
+  setCardType(cardNumberMasked.masked.currentMask.cardType)
+})
